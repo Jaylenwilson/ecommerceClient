@@ -1,6 +1,9 @@
 import React from "react"
 import { Props } from '../App'
 import { MDBInput, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit'
+import { Navigate } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap'
+
 
 
 export type BasicLoginProps = {
@@ -11,18 +14,25 @@ export type BasicLoginProps = {
     updateToken: Props['updateToken']
     role: Props['role'],
     setRole: Props['setRole'],
-    firstname: Props['firstname'],
+    firstName: Props['firstName'],
     setFirstName: Props['setFirstName']
 }
 
 export type BasicLoginState = {
     userId: string,
-    firstname: string,
+    firstName: string,
     email: string,
     password: string,
     role: string,
     sessionToken: string,
-    updateToken: string
+    updateToken: string,
+    lastName: string,
+    addres1: string,
+    address2: string | null,
+    city: string,
+    state: string,
+    zipcode: string,
+
 }
 
 class BasicLogin extends React.Component<BasicLoginProps, BasicLoginState> {
@@ -30,12 +40,18 @@ class BasicLogin extends React.Component<BasicLoginProps, BasicLoginState> {
         super(props)
         this.state = {
             userId: "",
-            firstname: "",
+            firstName: "",
             email: "",
             role: "",
             sessionToken: "",
             updateToken: "",
-            password: ""
+            password: "",
+            lastName: "",
+            addres1: "",
+            address2: "",
+            city: "",
+            state: "",
+            zipcode: ""
         }
         this.handleClick = this.handleClick.bind(this);
         this.basicLogin = this.basicLogin.bind(this);
@@ -50,10 +66,10 @@ class BasicLogin extends React.Component<BasicLoginProps, BasicLoginState> {
     basicLogin = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        await fetch("http://localhost:3000/login", {
+        await fetch("http://localhost:3000/auth/login", {
             method: 'POST',
             body: JSON.stringify({
-                user: { firstname: this.state.firstname, email: this.state.email, password: this.state.password, role: this.state.role }
+                user: { firstname: this.state.firstName, email: this.state.email, password: this.state.password, role: this.state.role }
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -64,41 +80,73 @@ class BasicLogin extends React.Component<BasicLoginProps, BasicLoginState> {
                 console.log(data)
                 if (data.user) {
                     this.props.setSessionToken(data.sessionToken);
-                    this.props.updateToken(data.sessionToken, data.user.firstname, data.user.role);
+                    this.props.updateToken(data.sessionToken, data.user.firstName, data.user.role);
                     this.props.setUserId(data.user.id)
                 }
             })
+            .catch(err => console.log(err))
+
+    }
+
+    basicSignUp = async (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        await fetch("http://localhost:3000/auth/register", {
+            method: 'POST',
+            body: JSON.stringify({
+                user: {
+                    firstname: this.state.firstName,
+                    lastname: this.state.lastName,
+                    email: this.state.email,
+                    password: this.state.password,
+                    address1: this.state.addres1,
+                    address2: this.state.address2,
+                    city: this.state.city,
+                    state: this.state.state,
+                    zipcode: this.state.zipcode
+                }
+            })
+        })
+            .then(data => data.json())
+            .then(data => {
+                if (data.user) {
+                    this.props.setSessionToken(data.sessionToken);
+                    this.props.updateToken(data.sessionToken, data.user.firstName, data.user.role);
+                    this.props.setUserId(data.user.id)
+                }
+            })
+            .catch(err => console.log(err))
+
     }
 
     render(): React.ReactNode {
         return (
             <div>
-                <h1>SneakerPlug</h1>
-                <div id="login">
-                    <h3>Login</h3>
-                    <form id="loginform" onSubmit={this.basicLogin}>
+                <Container>
+                    <Row>
+                        <Col>
+                            <h1>SneakerPlug</h1>
 
-                        <MDBInput required max="8" min="6" className='mb-4' type='text' name='username' value={this.state.firstname} onChange={this.handleClick} label='username' ></MDBInput>
-                        <MDBInput required max="8" min="6" className='mb-4' type='text' name='email' value={this.state.email} onChange={this.handleClick} label='email'></MDBInput>
-                        <MDBInput required max="8" min="6" className='mb-4' type='password' name='password' value={this.state.password} onChange={this.handleClick} label='password'></MDBInput>
+                        </Col>
+                        <Col>
+                            <h3>Login</h3>
+                            <div id="login">
+                                <form id="loginform" onSubmit={this.basicLogin}>
 
-                        <MDBBtn type='submit'>Sign in</MDBBtn>
-                        {this.state.user !== "" && <Navigate to='/home' />}
+                                    <MDBInput required max="8" min="6" className='mb-4' type='text' name='username' value={this.state.firstName} onChange={this.handleClick} label='username' ></MDBInput>
+                                    <MDBInput required max="8" min="6" className='mb-4' type='text' name='email' value={this.state.email} onChange={this.handleClick} label='email'></MDBInput>
+                                    <MDBInput required max="8" min="6" className='mb-4' type='password' name='password' value={this.state.password} onChange={this.handleClick} label='password'></MDBInput>
 
-                    </form>
-                </div>
-                <div id='registerbutton'>
-                    <p>Not a member?</p>
-                    <MDBBtn onClick={this.props.toggleModal} type='button'>Sign up</MDBBtn>
-                    {this.props.userId !== "" && <Navigate to='/home' />}
+                                    <MDBBtn type='submit'>Sign in</MDBBtn>
+                                    {this.state.userId !== "" && <Navigate to='/home' />}
 
-                </div>
+                                </form>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
 
-                <div id="signupbtn">
-                    <Signup role={this.props.role} setRole={this.props.setRole} username={this.props.username} setUsername={this.props.setUsername} setUser={this.props.setUser} user={this.props.user} closeModal={this.props.closeModal} toggleModal={this.props.toggleModal} isOpen={this.props.isOpen} sessionToken={this.props.sessionToken} updateToken={this.props.updateToken} setSessionToken={this.props.setSessionToken} />
-                </div>
 
-            </div>
             </div>
         )
     }
