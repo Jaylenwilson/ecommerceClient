@@ -5,6 +5,7 @@ import './App.css';
 import { Sidebar } from "./componnents/Navbars/SideBar";
 import { useNavigate } from 'react-router-dom'
 import BasicLogin from "./Auth/Basiclogin";
+import Home from "./componnents/Home";
 
 
 export type Props = {
@@ -18,6 +19,10 @@ export type Props = {
   setUserId: (user: string) => void,
   role: string,
   setRole: (role: string) => void
+  productId: string,
+  setProductsId: (productsId: string) => void,
+  products: string[],
+  setProducts: (products: string[]) => void
 }
 
 
@@ -26,6 +31,8 @@ const App: React.FunctionComponent = () => {
   const [userId, setUserId] = useState<string>("")
   const [firstName, setFirstName] = useState<string>("")
   const [role, setRole] = useState<string>("")
+  const [productId, setProductsId] = useState<string>("")
+  const [products, setProducts] = useState<string[]>([])
   const navigate = useNavigate()
 
 
@@ -47,11 +54,15 @@ const App: React.FunctionComponent = () => {
       <Sidebar sessionToken={sessionToken} firstName={firstName} role={role} clearToken={clearToken} />
       <Routes>
 
-        <Route>
-          <Route path='/' element={
-            <BasicLogin sessionToken={sessionToken} setFirstName={setFirstName} setUserId={setUserId} userId={userId} setSessionToken={setSessionToken} updateToken={updateToken} role={role} setRole={setRole} firstName={firstName} />
-          } />
-        </Route>
+
+        <Route path='/login' element={
+          <BasicLogin sessionToken={sessionToken} setFirstName={setFirstName} setUserId={setUserId} userId={userId} setSessionToken={setSessionToken} updateToken={updateToken} role={role} setRole={setRole} firstName={firstName} />
+        } />
+
+        <Route path='/' element={
+          <Home sessionToken={sessionToken} userId={userId} setProductsId={setProductsId} products={products} setProducts={setProducts} role={role} productId={productId} />
+        } />
+
 
 
       </Routes>
