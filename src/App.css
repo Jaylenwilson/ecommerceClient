@@ -1,38 +1,159 @@
-.App {
-  text-align: center;
+/* div {
+  border: 1px solid black;
+} */
+
+/* start mobile view at 991px */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+body {
+  background-color: #846A6A;
+  font-family: 'Bebas Neue', cursive;
+  margin-top: 8px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.pre-bannerwrapper {
+  /* width: 100%; */
+  height: 3vh;
+  /* border: 3px solid red; */
+  /* position: relative; */
   display: flex;
-  flex-direction: column;
+  border-bottom: 1px solid #EEF0F2;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.pre-banner {
+  /* text-decoration: none; */
+  list-style: none;
+  /* border-bottom: 2px solid darkgray; */
+  padding-bottom: 5px;
+  /* cursor: pointer; */
+  /* width: 100%; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* .pre-bannerwrapper {
+  width: 100%;
+  height: 6vh;
+  /* border: 3px solid red; */
+/* position: relative; */
+/* display: flex;
+  align-items: center;
+}  */
+
+.pre-bannerlinks {
+  text-decoration: none;
+  color: #EEF0F2;
+}
+
+.iconlink {
+  margin-right: 20px;
+}
+
+.iconbtn {
+  border: none;
+  background-color: transparent;
+}
+
+.searchbtn {
+  position: absolute;
+  right: 6px;
+  top: 3px;
+  border: none;
+  background-color: transparent;
+  margin-left: 2px;
+}
+
+.banner {
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  background-color: #353B3C;
+  border-bottom: 1px solid #EEF0F2;
+}
+
+/* .searchbox {
+  position: relative;
+  border-radius: 1%;
+  background-color: #C5C5C5;
+  border: 1px solid black;
+  width: 100%;
+  /* display: flex;
+  align-items: center; */
+/* height: 35%;
+  margin-top: 35px;
+}  */
+
+/* .search {
+  border: none;
+  background-color: transparent;
+  width: 65%;
+  height: 100%;
+} */
+
+.menubtn {
+  width: 80%;
+  font-size: 30px;
+  border: none;
+  background-color: transparent;
+  height: 100%;
+  color: #A2999E;
+}
+
+.menubtn:hover {
+  color: #EEF0F2;
+}
+
+h1 {
+  background-color: #C6C7C4;
+  padding: 21px;
+  border-bottom: 1px solid #EEF0F2;
+}
+
+h5 {
+  font-size: .9rem;
+}
+
+.title {
+  margin-top: 25px;
+  padding-left: 25px;
+  font-weight: bolder;
+  font-size: 21px;
+  padding-top: 30px;
+  background-color: #846A6A;
+  color: #353B3C;
+  margin-bottom: 0;
+}
+
+.card {
+  margin-top: 10px;
+  /* box-shadow: 0px 2px 11px 1px; */
+  max-width: 100%;
+  box-shadow: none;
+  height: 50vh;
+}
+
+.card-body {
+  padding-left: 25px;
+  padding-top: 5px;
+  background-color: #846A6A;
+}
+
+.price {
+  color: #EEF0F2;
+}
+
+.shoecolors {
+  font-size: 14px;
+  color: #C6C7C4;
+}
+
+/* img {
+  height: 100%;
+} */
+
+.cardimg {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
 }

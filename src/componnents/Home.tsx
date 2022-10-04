@@ -1,4 +1,6 @@
+import { MDBCard, MDBCardBody, MDBCardTitle } from 'mdb-react-ui-kit';
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 import { Props } from '../App';
 
 export interface HomeProps {
@@ -12,7 +14,7 @@ export interface HomeProps {
 }
 
 export interface HomeState {
-    posts: string[],
+    products: string[],
     postId: string,
     results: string[]
 }
@@ -21,7 +23,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     constructor(props: HomeProps) {
         super(props)
         this.state = {
-            posts: [],
+            products: [],
             postId: "",
             results: []
         }
@@ -30,6 +32,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
     }
 
 
+    componentDidMount() {
+        this.ViewPost()
+    }
 
     ViewPost = async () => {
         await fetch("http://localhost:3000/product/all", {
@@ -50,9 +55,40 @@ export class Home extends React.Component<HomeProps, HomeState> {
             .catch((err) => console.log(err))
     }
 
-    componentDidMount() {
-        this.ViewPost()
+
+    productsMap = () => {
+        return this.props.products?.map((products: any, index: number) => {
+            return (
+                <Col md={4}>
+                    <MDBCard className="card" key={products.id}>
+                        <img className='cardimg' src={products.image} alt="" />
+                        <MDBCardTitle className="title">{products.item}</MDBCardTitle>
+                        <MDBCardBody>
+                            <h5>{products.description}</h5>
+                            <p className='shoecolors'>{products.color}</p>
+                            <h5 className='price'>{products.price}</h5>
+                        </MDBCardBody>
+                    </MDBCard>
+                </Col>
+            )
+        })
     }
+
+    render(): React.ReactNode {
+        return (
+            <div className="homepagewrapper">
+                <h1>Home Page</h1>
+                <Container>
+                    <Row>
+
+                        {this.productsMap()}
+
+                    </Row>
+                </Container>
+            </div>
+        )
+    }
+
 }
 
 export default Home;
